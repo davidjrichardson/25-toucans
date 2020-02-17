@@ -1,0 +1,66 @@
+{
+  "name": "archery-nodecg",
+  "version": "0.1.0",
+  "description": "A NodeCG graphics bundle for an archery competition",
+  "homepage": "",
+  "author": {
+    "name": "David Richardson",
+    "email": "david@tankski.co.uk",
+    "url": "https://tankski.co.uk"
+  },
+  "scripts": {
+    "build": "webpack --mode production --progress",
+    "dev": "webpack --mode development --watch --progress",
+    "clean": "rm -rf graphics dashboard",
+    "nodecg": "npm ../.."
+  },
+  "files": [
+    "dashboard",
+    "graphics",
+    "extension.js",
+    "extension"
+  ],
+  "keywords": [
+    "",
+    "nodecg-bundle"
+  ],
+  "nodecg": {
+    "compatibleRange": "~1.5.0",
+    "dashboardPanels": [
+      {
+        "name": "match-title",
+        "title": "Match Info",
+        "width": 4,
+        "file": "matchInfo/index.html",
+        "headerColor": "#5B27FF"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "scoresRecurve/index.html",
+        "width": 1920,
+        "height": 1080,
+        "singleInstance": false
+      }
+    ]
+  },
+  "repository": "https://github.com/nodecg/nodecg.git",
+  "license": "MIT",
+  "dependencies": {
+    "css-loader": "^3.4.2",
+    "eslint-loader": "^3.0.3",
+    "file-loader": "^5.0.2",
+    "gsap": "^3.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "mithril": "^2.0.4",
+    "url-loader": "^3.0.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}

@@ -1,0 +1,75 @@
+.columnsContainer {
+    grid-row: 1;
+    grid-template-columns: 1fr repeat(3, 51px) 0px repeat(2, 59px) 85px;
+    gap: 17px;
+
+    display: inline-grid;
+}
+
+.matchTitle {
+    display: inline-block;
+
+    justify-self: start;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+
+    padding: 2px 4px;
+    margin-top: 63px;
+    margin-left: 5px;
+
+    border: 2px solid white;
+    border-radius: 2px;
+
+    color: var(--butts-purple-text);
+    background-color: var(--butts-purple);
+}
+
+.isGold {
+    background-color: var(--butts-yellow);
+    color: black;
+    border-color: black;
+}
+
+.isBronze {
+    background-color: var(--butts-bronze);
+    color: white;
+    border-color: white;
+}
+
+.totalTitle {
+    display: inline-block;
+
+    justify-self: center;
+
+    font-size: 18px;
+
+    padding: 2px 4px;
+    margin-top: 63px;
+    margin-left: 5px;
+
+    border: 2px solid white;
+    border-radius: 2px;
+
+    color: var(--butts-purple-text);
+    background-color: var(--butts-purple);
+}
+
+.endTitle {
+    display: inline-block;
+    justify-self: center;
+
+    width: 30px;
+
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+
+    color: var(--butts-purple-text);
+    background-color: var(--butts-purple);
+    
+    margin-top: 63px;
+
+    border-radius: 30px;
+    border: 2px solid white;
+}

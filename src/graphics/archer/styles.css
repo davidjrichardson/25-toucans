@@ -1,0 +1,91 @@
+.archerTile {
+    font-size: 36px;
+    line-height: 47px;
+
+    background-color: var(--butts-purple);
+    color: var(--butts-purple-text);
+
+    border: 2px solid white;
+    border-radius: 4px;
+
+    padding: 0 8px;
+
+    grid-column: 1;
+}
+
+.winnerTile {
+    display: inline-block;
+
+    justify-self: start;
+    align-self: center;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+
+    padding: 2px 4px;
+
+    border: 2px solid black;
+    border-radius: 2px;
+
+    color: black;
+    box-shadow: 0 0 8px var(--butts-yellow);
+    background-color: var(--butts-yellow);
+
+    grid-column: 8;
+}
+
+.totalTile {
+    height: 51px;
+
+    border: 2px solid white;
+    border-radius: 4px;
+    color: var(--butts-purple-text);
+    background-color: var(--butts-purple);
+
+    font-size: 36px;
+    line-height: 47px;
+    text-align: center;
+}
+
+.scoreTile {
+    width: 51px;
+    height: 51px;
+
+    border: 2px solid black;
+    border-radius: 4px;
+    color: black;
+
+    font-size: 36px;
+    line-height: 47px;
+    text-align: center;
+}
+
+.isGold {
+    background-color: var(--butts-yellow);
+}
+
+.isBlack {
+    background-color: black;
+    color: white;
+}
+
+.isWhite {
+    background-color: white;
+}
+
+.isRed {
+    background-color: var(--butts-red);
+    color: white;
+}
+
+.isBlue {
+    background-color: var(--butts-blue);
+    color: white;
+}
+
+.archersContainer {
+    display: inline-grid;
+    background-color: transparent;
+    grid-template-columns: 1fr repeat(3, 51px) 0px repeat(2, 59px) 85px;
+    grid-gap: 17px;
+}

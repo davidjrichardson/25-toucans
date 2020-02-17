@@ -1,0 +1,78 @@
+@font-face {
+  font-family: "Norwester";
+  src: url("./assets/norwester.ttf") format("ttf"),
+}
+
+:root {
+  /* Colour vars */
+  --butts-purple: #7211ff;
+  --butts-purple-2: #5b27ff;
+  --butts-purple-text: #f7f3ff;
+  --butts-yellow: #ffdd57;
+  --butts-red: #ff1212;
+  --butts-blue: #256ada;
+  --butts-bronze: #a46628;
+
+  --chroma-green: #00ff00;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* overflow: hidden; */
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.infoGrid {
+  display: flex;
+
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+}
+
+.thirdsGrid {
+  display: grid;
+  grid-template-rows: 86px repeat(2, 51px);
+  gap: 17px;
+}
+
+.container {
+  width: 1920px;
+  height: 1080px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  font-family: 'Norwester', sans-serif;
+  font-weight: 600;
+
+  background-color: var(--chroma-green);
+}
+
+.leagueBrand {
+  background: url('assets/bottom-bg.svg') no-repeat;
+
+  width: 271px;
+  height: 262px;
+
+  margin-right: 17px;
+}
+
+.toucan {
+  background-image: url('assets/toucan-1000w.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  width: 275px;
+  height: 294px;
+
+  position: relative;
+  left: 15px;
+  top: 14px;
+}
