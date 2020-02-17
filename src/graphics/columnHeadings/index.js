@@ -5,6 +5,9 @@ import {
 } from './styles.css';
 
 const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
+const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
+
+const safeMatchType = () => (matchTypeRep.value || 'recurve');
 
 class MatchTitleTile {
   getColour(t) {
@@ -27,8 +30,7 @@ class MatchTitleTile {
 
 class ArrowNumberTile {
   view(vnode) {
-    const { end } = vnode.attrs;
-    const { col } = vnode.attrs;
+    const { end, col } = vnode.attrs;
 
     return m('div', { class: `${endTitle}`, style: `grid-column: ${col + 1}` },
       m('span', end));
@@ -37,8 +39,7 @@ class ArrowNumberTile {
 
 class TotalTitleTile {
   view(vnode) {
-    const { title } = vnode.attrs;
-    const { col } = vnode.attrs;
+    const { title, col } = vnode.attrs;
 
     return m('div', { class: `${totalTitle}`, style: `grid-column: ${col + 5}` },
       m('span', title));
@@ -48,15 +49,15 @@ class TotalTitleTile {
 export default class ColumnTitlesComponent {
   view(vnode) {
     const { showTimer } = vnode.attrs;
-    const { totTitle } = vnode.attrs;
 
     return m('div', { class: `${columnsContainer}` },
       m(MatchTitleTile, { title: matchTitleRep.value }),
       [1, 2, 3].map((n) => m(ArrowNumberTile, { end: n, col: n })),
       m(TotalTitleTile, { title: 'E.T.', col: 1 }),
-      m(TotalTitleTile, { title: totTitle, col: 2 }),
+      m(TotalTitleTile, { title: (safeMatchType() === 'compound' ? 'R.T.' : 'S.P.'), col: 2 }),
       (showTimer ? undefined : undefined));
   }
 }
 
 matchTitleRep.on('change', () => { m.redraw(); });
+matchTypeRep.on('change', () => { m.redraw(); });

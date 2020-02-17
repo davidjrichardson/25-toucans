@@ -1,7 +1,7 @@
 import m from 'mithril';
 import gsap from 'gsap';
 import {
-  archerTile, archersContainer, scoreTile, isGold,
+  archerTile, archersContainer, scoreTile, isGold, isDefault,
   isRed, isWhite, isBlue, isBlack, totalTile, winnerTile,
 } from './styles.css';
 
@@ -28,6 +28,9 @@ class TotalTile {
 
 class ArrowValueTile {
   getColour(v) {
+    if (v === '-' || v === '') {
+      return `${isDefault}`;
+    }
     if (v > 8) {
       return `${isGold}`;
     }
@@ -47,13 +50,14 @@ class ArrowValueTile {
   oncreate(vnode) {
     const { col, archer } = vnode.attrs;
 
-    const changeFlash = gsap.from(vnode.dom, {
+    const changeFlash = gsap.to(vnode.dom, {
       easing: 'power4',
       paused: true,
       backgroundColor: '#FFF',
-      borderColor: '#FFF',
       color: '#FFF',
-      duration: 0.5,
+      duration: 0.25,
+      yoyo: true,
+      repeat: 1,
     });
 
     window.nodecg.listenFor(`arrowChange-${archer}-${col}`, () => {
@@ -107,8 +111,6 @@ export default class ArcherNamesComponent {
     const { winnerPred } = vnode.attrs;
 
     const archerData = archersRep.value[archer];
-
-    console.log(archerData);
 
     return m('div', { class: `${archersContainer}`, style: `grid-row: ${row};` },
       m(ArcherNameTile, { name: archerData.name }),

@@ -60,6 +60,13 @@
     text-align: center;
 }
 
+.isDefault {
+    background-color: var(--butts-purple);
+    color: var(--butts-purple-text);
+
+    border-color: white;
+}
+
 .isGold {
     background-color: var(--butts-yellow);
 }

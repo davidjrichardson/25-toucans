@@ -2,10 +2,11 @@ import m from 'mithril';
 
 import {
   button, form, input, helpTextStyle, formRow, formLabel, formInput,
-  submitWrapper,
+  submitWrapper, radioInput, radioLabel,
 } from '../common.css';
 
 const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
+const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
 
 const emptyArchers = [
@@ -28,11 +29,35 @@ const emptyArchers = [
 ];
 
 const safeArchers = () => (archersRep.value || emptyArchers);
+const safeMatchType = () => (matchTypeRep.value || 'recurve');
+
+class RadioButtonComponent {
+  view(vnode) {
+    const {
+      name, values, labels, label, checkedValue,
+    } = vnode.attrs;
+
+    return m('div', { class: `${formRow}` },
+      m('p', { class: `${formLabel}` }, `${label}`),
+      m('div',
+        ...values.map((v, i) => [
+          m('label', { class: `${radioLabel}`, for: `${v}` }, `${labels[i]}`),
+          m('input', {
+            class: `${radioInput}`,
+            type: 'radio',
+            name: `${name}`,
+            id: `${v}`,
+            value: `${v}`,
+            checked: (checkedValue === v ? 'checked' : ''),
+          }),
+        ])));
+  }
+}
 
 class TextInputComponent {
   view(vnode) {
     const {
-      label, value, id, helpText, placeholder
+      label, value, id, helpText, placeholder,
     } = vnode.attrs;
 
     return m('div', { class: `${formRow}` },
@@ -44,7 +69,7 @@ class TextInputComponent {
           id: `${id}`,
           value: `${value}`,
           class: `${input}`,
-          placeholder: `${placeholder}`
+          placeholder: (placeholder ? `${placeholder}` : 'Recurve team quarter finals'),
         })),
       (helpText ? m('p', { class: `${helpTextStyle}` }, helpText) : undefined));
   }
@@ -70,9 +95,9 @@ class MatchInfoComponent {
           if (!archersRep.value) {
             archersRep.value = emptyArchers;
           }
-
-          archersRep.value[0].name = ev.target[1].value;
-          archersRep.value[1].name = ev.target[2].value;
+          matchTypeRep.value = document.querySelector('input[name="bowstyle"]:checked').value;
+          archersRep.value[0].name = ev.target[3].value;
+          archersRep.value[1].name = ev.target[4].value;
         },
         class: `${form}`,
       }, m(TextInputComponent, {
@@ -80,6 +105,12 @@ class MatchInfoComponent {
         id: 'matchTitle',
         value: matchTitleRep.value,
         helpText: '"Gold" and "Bronze" change the colour of the title for the respective medal matches.',
+      }), m(RadioButtonComponent, {
+        label: 'Match type',
+        name: 'bowstyle',
+        labels: ['Recurve', 'Compound'],
+        values: ['recurve', 'compound'],
+        checkedValue: safeMatchType(),
       }), m(TextInputComponent, {
         label: 'Name of Archer 1',
         placeholder: 'Bob Ross',
@@ -94,8 +125,9 @@ class MatchInfoComponent {
   }
 }
 
-window.NodeCG.waitForReplicants(archersRep, matchTitleRep).then(() => {
+window.NodeCG.waitForReplicants(archersRep, matchTitleRep, matchTypeRep).then(() => {
   m.mount(document.body, MatchInfoComponent);
 });
 matchTitleRep.on('change', () => { m.redraw(); });
+matchTypeRep.on('change', () => { m.redraw(); });
 archersRep.on('change', () => { m.redraw(); });

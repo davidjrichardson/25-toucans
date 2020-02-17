@@ -50,6 +50,14 @@
   justify-content: end;
 }
 
+.radioInput {
+  margin-right: 12px;
+}
+
+.radioLabel {
+  margin-right: 2px;
+}
+
 .input {
   color: white;
   background-color: rgba(255, 255, 255, 0.05);
