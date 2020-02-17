@@ -51,7 +51,7 @@ export default class ColumnTitlesComponent {
     const { totTitle } = vnode.attrs;
 
     return m('div', { class: `${columnsContainer}` },
-      m(MatchTitleTile, { title: 'Gold boat race' }),
+      m(MatchTitleTile, { title: matchTitleRep.value }),
       [1, 2, 3].map((n) => m(ArrowNumberTile, { end: n, col: n })),
       m(TotalTitleTile, { title: 'E.T.', col: 1 }),
       m(TotalTitleTile, { title: totTitle, col: 2 }),

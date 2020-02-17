@@ -29,7 +29,7 @@
     "dashboardPanels": [
       {
         "name": "match-title",
-        "title": "Match Info",
+        "title": "Match title",
         "width": 4,
         "file": "matchInfo/index.html",
         "headerColor": "#5B27FF"
