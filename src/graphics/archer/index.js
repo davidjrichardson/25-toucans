@@ -5,7 +5,7 @@ import {
   isRed, isWhite, isBlue, isBlack, totalTile, winnerTile,
 } from './styles.css';
 
-const archerRep = window.NodeCG.Replicant('archers', 'archery');
+const archersRep = window.NodeCG.Replicant('archers', 'archery');
 
 class ArcherNameTile {
   view(vnode) {
@@ -93,21 +93,30 @@ class WinnerTile {
   }
 }
 
+function addScores(a, b) {
+  if (b === '' || b === '-') {
+    return a;
+  }
+  return a + b;
+}
+
 export default class ArcherNamesComponent {
   view(vnode) {
     const { archer } = vnode.attrs;
     const { row } = vnode.attrs;
     const { winnerPred } = vnode.attrs;
 
-    // TODO: Create a way to animate the winner message appearing
+    const archerData = archersRep.value[archer];
+
+    console.log(archerData);
 
     return m('div', { class: `${archersContainer}`, style: `grid-row: ${row};` },
-      m(ArcherNameTile, { name: archer.name }),
-      ...archer.scores.end.map((s, i) => m(ArrowValueTile, { value: s, col: i })),
-      m(TotalTile, { value: archer.scores.end.reduce((a, b) => a + b, 0), col: 1 }),
-      m(TotalTile, { value: archer.scores.sets, col: 2 }),
+      m(ArcherNameTile, { name: archerData.name }),
+      ...archerData.scores.end.map((s, i) => m(ArrowValueTile, { value: s, col: i })),
+      m(TotalTile, { value: archerData.scores.end.reduce(addScores, 0), col: 1 }),
+      m(TotalTile, { value: archerData.scores.sets, col: 2 }),
       (winnerPred ? m(WinnerTile, { archer }) : undefined));
   }
 }
 
-archerRep.on('change', () => { m.redraw(); });
+archersRep.on('change', () => { m.redraw(); });

@@ -10,23 +10,6 @@ import {
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
 const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
 
-const archers = [
-  {
-    name: 'Boaty McBoatrace',
-    scores: {
-      sets: 5,
-      end: [10, 9, 8],
-    },
-  },
-  {
-    name: 'Arthur Coveney',
-    scores: {
-      sets: 3,
-      end: [6, 4, 2],
-    },
-  },
-];
-
 class ToucanImageComponent {
   view() {
     return m('div', { class: `${toucan}` });
@@ -48,13 +31,13 @@ class LowerThirdsComponent {
         m(ColumnTitlesComponent, { maxPoints: 7, winnerThreshold: 6, totTitle: 'S.P.' }),
         m(ArcherComponent, {
           row: 2,
-          archer: archers[0],
-          winnerPred: archers[0].scores.sets >= 6,
+          archer: 0,
+          winnerPred: false,
         }),
         m(ArcherComponent, {
           row: 3,
-          archer: archers[1],
-          winnerPred: archers[1].scores.sets >= 6,
+          archer: 1,
+          winnerPred: false,
         })));
   }
 }

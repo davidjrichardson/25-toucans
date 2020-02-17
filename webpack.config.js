@@ -12,7 +12,7 @@ const gfxSrcs = gfxSrcFolders.map(gfxSrc => ({
     outputFolder: path.join(__dirname, 'graphics', gfxSrc),
 }));
 
-const dashSrcFolders = ['matchInfo'];
+const dashSrcFolders = ['matchInfo', 'scoring'];
 const dashSrcPath = path.join(__dirname, 'src', 'dashboard');
 const dashSrcs = dashSrcFolders.map(dashSrc => ({
     name: dashSrc,

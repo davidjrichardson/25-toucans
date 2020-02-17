@@ -20,12 +20,34 @@
 
 .form {
   font-size: 16px;
+}
 
+.formInput {
   display: flex;
 }
 
-.helpText {
-  font-size: 14px !important;
+.formRow:not(:last-of-type) {
+  margin-bottom: 12px;
+}
+
+.formRow:last-of-type {
+  padding-top: 4px;
+}
+
+.helpTextStyle {
+  font-size: 12px !important;
+}
+
+.formLabel {
+  font-weight: bold;
+  display: block;
+
+  margin-bottom: 6px;
+}
+
+.submitWrapper {
+  display: flex;
+  justify-content: end;
 }
 
 .input {
@@ -55,10 +77,6 @@
 
   border: 0 solid transparent;
   border-radius: 4px;
-
-  margin-left: 12px;
-
-  flex-shrink: 1;
 }
 
 .button:hover,

@@ -29,9 +29,16 @@
     "dashboardPanels": [
       {
         "name": "match-title",
-        "title": "Match title",
+        "title": "Match info",
         "width": 4,
         "file": "matchInfo/index.html",
+        "headerColor": "#5B27FF"
+      },
+      {
+        "name": "scoring",
+        "title": "Scoring",
+        "width": 8,
+        "file": "scoring/index.html",
         "headerColor": "#5B27FF"
       }
     ],
