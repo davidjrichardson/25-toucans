@@ -98,7 +98,13 @@ class WinnerTile {
 }
 
 function addScores(a, b) {
-  if (b === '' || b === '-') {
+  if (b === '' || b === '-' || b === 'm' || b === 'M') {
+    return a;
+  }
+  if (b.endsWith('*')) {
+    return a + parseInt(b.slice(0, 1), 10);
+  }
+  if (Number.isNaN(parseInt(b, 10))) {
     return a;
   }
   return a + b;
