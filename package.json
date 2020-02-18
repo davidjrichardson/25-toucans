@@ -1,7 +1,7 @@
 {
-  "name": "archery-nodecg",
+  "name": "25-toucans",
   "version": "0.1.0",
-  "description": "A NodeCG graphics bundle for an archery competition",
+  "description": "A NodeCG graphics bundle for the 25th Anniversary BUTTS League Champs",
   "homepage": "",
   "author": {
     "name": "David Richardson",
@@ -32,6 +32,13 @@
         "title": "Match info",
         "width": 4,
         "file": "matchInfo/index.html",
+        "headerColor": "#5B27FF"
+      },
+      {
+        "name": "timing",
+        "title": "Timing",
+        "width": 3,
+        "file": "timing/index.html",
         "headerColor": "#5B27FF"
       },
       {
