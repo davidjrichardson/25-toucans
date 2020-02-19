@@ -30,8 +30,15 @@
       {
         "name": "match-title",
         "title": "Match info",
-        "width": 4,
+        "width": 3,
         "file": "matchInfo/index.html",
+        "headerColor": "#5B27FF"
+      },
+      {
+        "name": "scoring",
+        "title": "Scoring",
+        "width": 6,
+        "file": "scoring/index.html",
         "headerColor": "#5B27FF"
       },
       {
@@ -39,13 +46,6 @@
         "title": "Timing",
         "width": 3,
         "file": "timing/index.html",
-        "headerColor": "#5B27FF"
-      },
-      {
-        "name": "scoring",
-        "title": "Scoring",
-        "width": 8,
-        "file": "scoring/index.html",
         "headerColor": "#5B27FF"
       }
     ],

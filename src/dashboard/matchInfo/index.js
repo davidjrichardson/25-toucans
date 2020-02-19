@@ -98,6 +98,8 @@ class MatchInfoComponent {
           matchTypeRep.value = document.querySelector('input[name="bowstyle"]:checked').value;
           archersRep.value[0].name = ev.target[3].value;
           archersRep.value[1].name = ev.target[4].value;
+
+          return false;
         },
         class: `${form}`,
       }, m(TextInputComponent, {

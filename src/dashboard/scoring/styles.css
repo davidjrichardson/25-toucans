@@ -1,0 +1,72 @@
+.inputRow {
+  display: inline-grid;
+
+  grid-template-columns: 1fr repeat(3, 80px) 0px 80px 0px repeat(2, 80px);
+  gap: 15px;
+
+  align-items: center;
+}
+
+.centerInput {
+  text-align: center;
+}
+
+.buttonRow {
+    display: grid;
+    grid-template-columns: auto max-content 0px min-content;
+
+    gap: 15px;
+}
+
+.buttonRed {
+    background-color: var(--butts-red);
+}
+
+.buttonRed:hover,
+.buttonRed:focus {
+    background-color: var(--butts-red-2);
+}
+
+.buttonBlue {
+    background-color: var(--butts-blue);
+}
+
+.buttonBlue:hover,
+.buttonBlue:focus {
+    background-color: var(--butts-blue-2);
+}
+
+.buttonGreen {
+    background-color: var(--butts-green);
+}
+
+.buttonGreen:hover,
+.buttonGreen:focus {
+    background-color: var(--butts-green-2);
+}
+
+.inputGrid {
+  display: grid;
+
+  grid-template-rows: 40px repeat(2, 1fr) 32px;
+  gap: 15px;
+
+  padding-right: 15px;
+}
+
+.colHeadings {
+  align-items: end;
+}
+
+.colTitle {
+  font-weight: bold;
+  font-size: 14px;
+
+  justify-self: center;
+  text-align: center;
+}
+
+.archerName {
+  font-weight: bold;
+  display: block;
+}

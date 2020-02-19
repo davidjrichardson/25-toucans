@@ -14,8 +14,12 @@
   --butts-purple-text: #f7f3ff;
   --butts-yellow: #ffdd57;
   --butts-red: #ff1212;
+  --butts-red-2: #FF3E3E;
   --butts-blue: #256ada;
+  --butts-blue-2: #3A78DD;
   --butts-bronze: #a46628;
+  --butts-green: #20b952;
+  --butts-green-2: #4ac672;
 }
 
 .form {
@@ -75,6 +79,14 @@
   background-color: rgba(255, 255, 255, 0.1);
 
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.disabledInput,
+.disabledInput:hover,
+.disabledInput:focus {
+  background-color: transparent;
+
+  border: 0 solid transparent;
 }
 
 .button {

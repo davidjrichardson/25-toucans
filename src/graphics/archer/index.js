@@ -60,7 +60,7 @@ class ArrowValueTile {
       repeat: 1,
     });
 
-    window.nodecg.listenFor(`arrowChange-${archer}-${col}`, () => {
+    window.nodecg.listenFor(`arrowChange-archer${archer}-arrow${col}`, () => {
       changeFlash.restart();
     });
   }
@@ -99,15 +99,15 @@ class WinnerTile {
 
 function addScores(a, b) {
   if (b === '' || b === '-' || b === 'm' || b === 'M') {
-    return a;
+    return parseInt(a, 10);
   }
   if (b.endsWith('*')) {
-    return a + parseInt(b.slice(0, 1), 10);
+    return parseInt(a, 10) + parseInt(b.slice(0, 1), 10);
   }
   if (Number.isNaN(parseInt(b, 10))) {
-    return a;
+    return parseInt(a, 10);
   }
-  return a + b;
+  return parseInt(a, 10) + parseInt(b, 10);
 }
 
 export default class ArcherNamesComponent {
@@ -120,7 +120,7 @@ export default class ArcherNamesComponent {
 
     return m('div', { class: `${archersContainer}`, style: `grid-row: ${row};` },
       m(ArcherNameTile, { name: archerData.name }),
-      ...archerData.scores.end.map((s, i) => m(ArrowValueTile, { value: s, col: i })),
+      ...archerData.scores.end.map((s, i) => m(ArrowValueTile, { archer, value: s, col: i })),
       m(TotalTile, { value: archerData.scores.end.reduce(addScores, 0), col: 1 }),
       m(TotalTile, { value: archerData.scores.sets, col: 2 }),
       (winnerPred ? m(WinnerTile, { archer }) : undefined));
