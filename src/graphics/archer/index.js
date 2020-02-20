@@ -3,9 +3,26 @@ import gsap from 'gsap';
 import {
   archerTile, archersContainer, scoreTile, isGold, isDefault,
   isRed, isWhite, isBlue, isBlack, totalTile, winnerTile,
+  scoreTileFlash,
 } from './styles.css';
 
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
+
+function parseValue(v) {
+  if (v === '' || v === '-') {
+    return -1;
+  }
+  if (v === 'm' || v === 'M') {
+    return 0;
+  }
+  if (v.endsWith('*')) {
+    return parseInt(v.slice(0, 1), 10);
+  }
+  if (Number.isNaN(parseInt(v, 10))) {
+    return 0;
+  }
+  return parseInt(v, 10);
+}
 
 class ArcherNameTile {
   view(vnode) {
@@ -28,9 +45,6 @@ class TotalTile {
 
 class ArrowValueTile {
   getColour(v) {
-    if (v === '-' || v === '') {
-      return `${isDefault}`;
-    }
     if (v > 8) {
       return `${isGold}`;
     }
@@ -43,34 +57,33 @@ class ArrowValueTile {
     if (v > 2) {
       return `${isBlack}`;
     }
+    if (v >= 0) {
+      return `${isWhite}`;
+    }
 
-    return `${isWhite}`;
+    return `${isDefault}`;
   }
 
   oncreate(vnode) {
     const { col, archer } = vnode.attrs;
 
-    const changeFlash = gsap.to(vnode.dom, {
-      easing: 'power4',
-      paused: true,
-      backgroundColor: '#FFF',
-      color: '#FFF',
-      duration: 0.25,
-      yoyo: true,
-      repeat: 1,
-    });
-
     window.nodecg.listenFor(`arrowChange-archer${archer}-arrow${col}`, () => {
-      changeFlash.restart();
+      gsap.fromTo(`#arrowFlash-archer${archer}-arrow${col}`, {
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+      }, {
+        ease: 'power4',
+        duration: 1.5,
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+      });
     });
   }
 
   view(vnode) {
-    const { value } = vnode.attrs;
-    const { col } = vnode.attrs;
+    const { value, col, archer } = vnode.attrs;
 
-    return m('div', { class: `${scoreTile} ${this.getColour(value)}`, style: `grid-column: ${col + 2}` },
-      m('span', value));
+    return m('div', { class: `${scoreTile} ${this.getColour(parseValue(value))}`, style: `grid-column: ${col + 2}` },
+      m('span', value),
+      m('div', { class: `${scoreTileFlash}`, id: `arrowFlash-archer${archer}-arrow${col}` }));
   }
 }
 
@@ -79,7 +92,7 @@ class WinnerTile {
     const { archer } = vnode.attrs;
 
     const slideIn = gsap.from(vnode.dom, {
-      easing: 'power4',
+      ease: 'power4',
       paused: true,
       opacity: 0.0,
       duration: 0.5,
@@ -98,16 +111,7 @@ class WinnerTile {
 }
 
 function addScores(a, b) {
-  if (b === '' || b === '-' || b === 'm' || b === 'M') {
-    return parseInt(a, 10);
-  }
-  if (b.endsWith('*')) {
-    return parseInt(a, 10) + parseInt(b.slice(0, 1), 10);
-  }
-  if (Number.isNaN(parseInt(b, 10))) {
-    return parseInt(a, 10);
-  }
-  return parseInt(a, 10) + parseInt(b, 10);
+  return parseInt(a, 10) + Math.max(parseValue(b, 10), 0);
 }
 
 export default class ArcherNamesComponent {

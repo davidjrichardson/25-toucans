@@ -69,6 +69,7 @@ class ArrowInputComponent {
       'data-col': `${col}`,
       'data-archer': `${archer}`,
       value,
+      tabindex: 100 + archer + (col * 2),
     });
   }
 }
@@ -90,7 +91,7 @@ class GenericInputComponent {
       'data-archer': `${archer}`,
       value,
       style: `grid-column: ${gridCol}`,
-      disabled,
+      disabled, // TODO: Optional tabindex
     });
   }
 }
