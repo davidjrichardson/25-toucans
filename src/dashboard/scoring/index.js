@@ -21,6 +21,7 @@ import {
 } from './styles.css';
 
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
+const matchEndRep = window.NodeCG.Replicant('matchEndCount', 'archery');
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
 
 function addScores(a, b) {
@@ -104,6 +105,27 @@ class SubmitButtonComponent {
   }
 }
 
+class ColumnTitleComponent {
+  view(vnode) {
+    const { text, col } = vnode.attrs;
+
+    return m('span', { style: `grid-column: ${col}`, class: `${colTitle}` }, `${text}`);
+  }
+}
+
+class ColumnHeadingsComponent {
+  view() {
+    return m('div', { class: `${inputRow} ${colHeadings}` },
+      [1, 2, 3].map((x) => m(ColumnTitleComponent, { text: `Arrow ${x}`, col: (x + 1) })),
+      m(ColumnTitleComponent, { text: 'Shoot off', col: 6 }),
+      m(ColumnTitleComponent, { text: 'End total', col: 8 }),
+      m(ColumnTitleComponent, {
+        text: (matchTypeRep.value === 'recurve' ? 'Set points' : 'Running total'),
+        col: 9,
+      }));
+  }
+}
+
 function nextEnd() {
   window.nodecg.sendMessage('nextEnd');
 }
@@ -131,6 +153,10 @@ class ButtonRowComponent {
         extraStyles: 'grid-column: 2',
         extraClasses: `${buttonBlue}`,
       }),
+      m(ColumnTitleComponent, {
+        text: `Scoring end ${matchEndRep.value}`,
+        col: 3,
+      }),
       m(GenericButtonComponent, {
         text: 'Next end',
         call: nextEnd,
@@ -140,27 +166,6 @@ class ButtonRowComponent {
       m(SubmitButtonComponent, {
         text: 'Update',
         extraStyles: 'grid-column: 6',
-      }));
-  }
-}
-
-class ColumnTitleComponent {
-  view(vnode) {
-    const { text, col } = vnode.attrs;
-
-    return m('span', { style: `grid-column: ${col}`, class: `${colTitle}` }, `${text}`);
-  }
-}
-
-class ColumnHeadingsComponent {
-  view() {
-    return m('div', { class: `${inputRow} ${colHeadings}` },
-      [1, 2, 3].map((x) => m(ColumnTitleComponent, { text: `Arrow ${x}`, col: (x + 1) })),
-      m(ColumnTitleComponent, { text: 'Shoot off', col: 6 }),
-      m(ColumnTitleComponent, { text: 'End total', col: 8 }),
-      m(ColumnTitleComponent, {
-        text: (matchTypeRep.value === 'recurve' ? 'Set points' : 'Running total'),
-        col: 9,
       }));
   }
 }
@@ -248,9 +253,7 @@ class ScoreEntryComponent {
           end: [newData['archer1-arrow0'], newData['archer1-arrow1'], newData['archer1-arrow2']],
         };
 
-        console.log('Score update submitted');
         window.nodecg.sendMessage('updateScores', [archer0Scores, archer1Scores]);
-
         changedKeys.forEach((v) => { window.nodecg.sendMessage(`arrowChange-${v}`); });
         return false;
       },
@@ -266,4 +269,5 @@ window.NodeCG.waitForReplicants(archersRep, matchTypeRep).then(() => {
 });
 
 matchTypeRep.on('change', () => { m.redraw(); });
+matchEndRep.on('change', () => { m.redraw(); });
 archersRep.on('change', () => { m.redraw(); });

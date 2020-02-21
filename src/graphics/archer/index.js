@@ -7,6 +7,7 @@ import {
 } from './styles.css';
 
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
+const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
 
 function parseValue(v) {
   if (v === '' || v === '-') {
@@ -99,6 +100,13 @@ class WinnerTile {
       x: -50,
     });
 
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        opacity: 0.0,
+        x: -50,
+      });
+    });
+
     window.nodecg.listenFor(`winner-archer${archer}`, () => {
       slideIn.restart();
     });
@@ -116,9 +124,7 @@ function addScores(a, b) {
 
 export default class ArcherNamesComponent {
   view(vnode) {
-    const { archer } = vnode.attrs;
-    const { row } = vnode.attrs;
-    const { winnerPred } = vnode.attrs;
+    const { archer, row } = vnode.attrs;
 
     const archerData = archersRep.value[archer];
 
@@ -126,8 +132,10 @@ export default class ArcherNamesComponent {
       m(ArcherNameTile, { name: archerData.name }),
       ...archerData.scores.end.map((s, i) => m(ArrowValueTile, { archer, value: s, col: i })),
       m(TotalTile, { value: archerData.scores.end.reduce(addScores, 0), col: 1 }),
-      m(TotalTile, { value: archerData.scores.sets, col: 2 }),
-      (winnerPred ? m(WinnerTile, { archer }) : undefined));
+      m(TotalTile, {
+        value: (matchTypeRep.value === 'recurve' ? archerData.scores.sets : archerData.scores.rt + archerData.scores.end.reduce(addScores, 0)),
+        col: 2,
+      }), m(WinnerTile, { archer }));
   }
 }
 

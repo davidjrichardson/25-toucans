@@ -25,14 +25,15 @@ const emptyArchers = () => {
   ];
 };
 
-let lastVersion = emptyArchers;
+let lastArcherVersion = emptyArchers;
+let lastMatchEndVersion = 1;
 const archersRep = nodecg.Replicant('archers', 'archery', {
   persistent: false,
   defaultValue: emptyArchers()
 });
 const matchEndCountRep = nodecg.Replicant('matchEndCount', 'archery', {
   persistent: false,
-  defaultValue: 0
+  defaultValue: 1
 });
 
 function addScores(a, b) {
@@ -48,18 +49,29 @@ function addScores(a, b) {
   return parseInt(a, 10) + parseInt(b, 10);
 }
 
-archersRep.on('change', (newVal, oldVal) => {
-  lastVersion = oldVal;
+archersRep.on('change', (_, oldVal) => {
+  lastArcherVersion = oldVal;
+});
+
+matchEndCountRep.on('change', (end, oldVal) => {
+  nodecg.log.info('Now on end', end);
+  lastMatchEndVersion = oldVal;
 });
 
 nodecg.listenFor('clearArchers', () => {
   nodecg.log.info('Clearing archers');
+  const name0 = archersRep.value[0].name;
+  const name1 = archersRep.value[1].name;
   archersRep.value = emptyArchers();
+  archersRep.value[0].name = name0;
+  archersRep.value[1].name = name1;
+  matchEndCountRep.value = 1;
 });
 
 nodecg.listenFor('undoArcherChange', () => {
   nodecg.log.info('Undoing last change to archer data');
-  archersRep.value = lastVersion;
+  archersRep.value = lastArcherVersion;
+  matchEndCountRep.value = lastMatchEndVersion;
 });
 
 nodecg.listenFor('updateArchers', (newNames) => {
@@ -102,7 +114,21 @@ nodecg.listenFor('nextEnd', () => {
 
   // Update the replicant
   archersRep.value = [archer0, archer1];
+  const matchType = nodecg.readReplicant('matchType', 'archery');
+  // TODO: Check if the recurve archer should win
+  // Handle if a compound archer should win
+  if (matchEndCountRep.value === 5 && matchType === 'compound') {
+    if (archer0.scores.rt >= archer1.scores.rt) {
+      nodecg.log.info('archer 0 wins - sending message');
+      nodecg.sendMessage('winner-archer0');
+    } else if (archer1.scores.rt >= archer0.scores.rt) {
+      nodecg.log.info('archer 0 wins - sending message');
+      nodecg.sendMessage('winner-archer1');
+    }
+  }
+  // TODO: If we're on end 5, either:
+  // --- The match is a compound match (and a winner needs declaring)
+  // --- OR the match is going to a shoot off
 
-  // TODO: Factor in shootOff arrow
-  // TODO: Figure out who won
+  matchEndCountRep.value += 1;
 });

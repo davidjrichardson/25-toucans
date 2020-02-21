@@ -14,6 +14,7 @@
 .buttonRow {
     display: grid;
     grid-template-columns: max-content max-content auto max-content 0px min-content;
+    align-items: center;
 
     gap: 15px;
 }

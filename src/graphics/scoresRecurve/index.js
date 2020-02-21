@@ -32,12 +32,10 @@ class LowerThirdsComponent {
         m(ArcherComponent, {
           row: 2,
           archer: 0,
-          winnerPred: false,
         }),
         m(ArcherComponent, {
           row: 3,
           archer: 1,
-          winnerPred: false,
         })));
   }
 }

@@ -6,6 +6,7 @@ import {
 
 const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
+const matchEndRep = window.NodeCG.Replicant('matchEndCount', 'archery');
 
 const safeMatchType = () => (matchTypeRep.value || 'recurve');
 
@@ -51,7 +52,7 @@ export default class ColumnTitlesComponent {
     const { showTimer } = vnode.attrs;
 
     return m('div', { class: `${columnsContainer}` },
-      m(MatchTitleTile, { title: matchTitleRep.value }),
+      m(MatchTitleTile, { title: `${matchTitleRep.value} - End ${matchEndRep.value}` }),
       [1, 2, 3].map((n) => m(ArrowNumberTile, { end: n, col: n })),
       m(TotalTitleTile, { title: 'E.T.', col: 1 }),
       m(TotalTitleTile, { title: (safeMatchType() === 'compound' ? 'R.T.' : 'S.P.'), col: 2 }),
@@ -61,3 +62,4 @@ export default class ColumnTitlesComponent {
 
 matchTitleRep.on('change', () => { m.redraw(); });
 matchTypeRep.on('change', () => { m.redraw(); });
+matchEndRep.on('change', () => { m.redraw(); });
