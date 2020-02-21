@@ -28,7 +28,7 @@ class LowerThirdsComponent {
     return m('div', { class: `${infoGrid}` },
       m(LeagueBrandComponent),
       m('div', { class: `${thirdsGrid}` },
-        m(ColumnTitlesComponent, { maxPoints: 7, winnerThreshold: 6, totTitle: 'S.P.' }),
+        m(ColumnTitlesComponent),
         m(ArcherComponent, {
           row: 2,
           archer: 0,

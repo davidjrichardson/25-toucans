@@ -9,28 +9,6 @@ const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
 
-const emptyArchers = [
-  {
-    name: '',
-    scores: {
-      sets: 0,
-      rt: 0,
-      end: ['', '', ''],
-    },
-  },
-  {
-    name: '',
-    scores: {
-      sets: 0,
-      rt: 0,
-      end: ['', '', ''],
-    },
-  },
-];
-
-const safeArchers = () => (archersRep.value || emptyArchers);
-const safeMatchType = () => (matchTypeRep.value || 'recurve');
-
 class RadioButtonComponent {
   view(vnode) {
     const {
@@ -91,13 +69,14 @@ class MatchInfoComponent {
       m('form', {
         onsubmit: (ev) => {
           ev.preventDefault();
-          matchTitleRep.value = ev.target[0].value;
-          if (!archersRep.value) {
-            archersRep.value = emptyArchers;
-          }
-          matchTypeRep.value = document.querySelector('input[name="bowstyle"]:checked').value;
-          archersRep.value[0].name = ev.target[3].value;
-          archersRep.value[1].name = ev.target[4].value;
+          const formData = new FormData(ev.target);
+
+          window.nodecg.sendMessage('updateArchers', [
+            formData.get('archer0Name'),
+            formData.get('archer1Name'),
+          ]);
+          window.nodecg.sendMessage('updateMatchType', formData.get('bowstyle'));
+          window.nodecg.sendMessage('updateMatchTitle', formData.get('matchTitle'));
 
           return false;
         },
@@ -112,17 +91,17 @@ class MatchInfoComponent {
         name: 'bowstyle',
         labels: ['Recurve', 'Compound'],
         values: ['recurve', 'compound'],
-        checkedValue: safeMatchType(),
+        checkedValue: matchTypeRep.value,
       }), m(TextInputComponent, {
         label: 'Name of Archer 1',
         placeholder: 'Bob Ross',
-        id: 'archer1Name',
-        value: safeArchers()[0].name,
+        id: 'archer0Name',
+        value: archersRep.value[0].name,
       }), m(TextInputComponent, {
         label: 'Name of Archer 2',
         placeholder: 'Boaty McBoatrace',
-        id: 'archer2Name',
-        value: safeArchers()[1].name,
+        id: 'archer1Name',
+        value: archersRep.value[1].name,
       }), m(SubmitButtonComponent, { text: 'Update' })));
   }
 }
@@ -130,6 +109,7 @@ class MatchInfoComponent {
 window.NodeCG.waitForReplicants(archersRep, matchTitleRep, matchTypeRep).then(() => {
   m.mount(document.body, MatchInfoComponent);
 });
+
 matchTitleRep.on('change', () => { m.redraw(); });
 matchTypeRep.on('change', () => { m.redraw(); });
 archersRep.on('change', () => { m.redraw(); });

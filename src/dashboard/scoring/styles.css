@@ -13,7 +13,7 @@
 
 .buttonRow {
     display: grid;
-    grid-template-columns: auto max-content 0px min-content;
+    grid-template-columns: max-content max-content auto max-content 0px min-content;
 
     gap: 15px;
 }

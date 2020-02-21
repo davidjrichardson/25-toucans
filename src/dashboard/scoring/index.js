@@ -16,34 +16,12 @@ import {
   centerInput,
   buttonRow,
   buttonGreen,
+  buttonRed,
+  buttonBlue,
 } from './styles.css';
 
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
-
-const emptyArchers = [
-  {
-    name: 'Archer 1',
-    scores: {
-      sets: '0',
-      rt: '0',
-      shootOff: '0',
-      end: ['', '', ''],
-    },
-  },
-  {
-    name: 'Archer 2',
-    scores: {
-      sets: '0',
-      rt: '0',
-      shootOff: '0',
-      end: ['', '', ''],
-    },
-  },
-];
-
-const safeArchers = () => (archersRep.value || emptyArchers);
-const safeMatchType = () => (matchTypeRep.value || 'recurve');
 
 function addScores(a, b) {
   if (b === '' || b === '-' || b === 'm' || b === 'M') {
@@ -91,7 +69,7 @@ class GenericInputComponent {
       'data-archer': `${archer}`,
       value,
       style: `grid-column: ${gridCol}`,
-      disabled, // TODO: Optional tabindex
+      disabled,
     });
   }
 }
@@ -108,6 +86,7 @@ class GenericButtonComponent {
     return m('button', {
       class: `${button} ${(extraClasses || '')}`,
       style: `${(extraStyles || '')}`,
+      type: 'button',
       onclick: () => { call(); },
     }, text);
   }
@@ -125,18 +104,42 @@ class SubmitButtonComponent {
   }
 }
 
+function nextEnd() {
+  window.nodecg.sendMessage('nextEnd');
+}
+
+function undoClear() {
+  window.nodecg.sendMessage('undoArcherChange');
+}
+
+function clearArchers() {
+  window.nodecg.sendMessage('clearArchers');
+}
+
 class ButtonRowComponent {
   view() {
     return m('div', { class: `${buttonRow}` },
       m(GenericButtonComponent, {
-        text: 'Next end',
-        call: () => { console.log('TODO'); },
+        text: 'Clear',
+        call: clearArchers,
+        extraStyles: 'grid-column: 1',
+        extraClasses: `${buttonRed}`,
+      }),
+      m(GenericButtonComponent, {
+        text: 'Undo',
+        call: undoClear,
         extraStyles: 'grid-column: 2',
+        extraClasses: `${buttonBlue}`,
+      }),
+      m(GenericButtonComponent, {
+        text: 'Next end',
+        call: nextEnd,
+        extraStyles: 'grid-column: 4',
         extraClasses: `${buttonGreen}`,
       }),
       m(SubmitButtonComponent, {
         text: 'Update',
-        extraStyles: 'grid-column: 4',
+        extraStyles: 'grid-column: 6',
       }));
   }
 }
@@ -156,7 +159,7 @@ class ColumnHeadingsComponent {
       m(ColumnTitleComponent, { text: 'Shoot off', col: 6 }),
       m(ColumnTitleComponent, { text: 'End total', col: 8 }),
       m(ColumnTitleComponent, {
-        text: (safeMatchType() === 'recurve' ? 'Set points' : 'Running total'),
+        text: (matchTypeRep.value === 'recurve' ? 'Set points' : 'Running total'),
         col: 9,
       }));
   }
@@ -167,28 +170,28 @@ class ArcherInputComponent {
     const { archer } = vnode.attrs;
 
     return m('div', { class: `${inputRow}` },
-      m('span', { class: `${archerName}` }, safeArchers()[archer].name),
-      safeArchers()[archer].scores.end.map((x, i) => m(ArrowInputComponent, {
+      m('span', { class: `${archerName}` }, archersRep.value[archer].name),
+      archersRep.value[archer].scores.end.map((x, i) => m(ArrowInputComponent, {
         archer,
         col: i,
         value: x,
       })),
       m(GenericInputComponent, {
         archer,
-        value: safeArchers()[archer].scores.shootOff,
+        value: archersRep.value[archer].scores.shootOff,
         name: 'shootOff',
         gridCol: 6,
       }),
       m(GenericInputComponent, {
         archer,
-        value: safeArchers()[archer].scores.end.reduce(addScores, 0),
+        value: archersRep.value[archer].scores.end.reduce(addScores, 0),
         name: 'endTotal',
         gridCol: 8,
         disabled: true,
       }),
       m(GenericInputComponent, {
         archer,
-        value: (safeMatchType() === 'recurve' ? safeArchers()[archer].scores.sets : safeArchers()[archer].scores.rt),
+        value: (matchTypeRep.value === 'recurve' ? archersRep.value[archer].scores.sets : archersRep.value[archer].scores.rt),
         name: 'matchTotal',
         gridCol: 9,
         disabled: true,
@@ -245,8 +248,8 @@ class ScoreEntryComponent {
           end: [newData['archer1-arrow0'], newData['archer1-arrow1'], newData['archer1-arrow2']],
         };
 
-        archersRep.value[0].scores = archer0Scores;
-        archersRep.value[1].scores = archer1Scores;
+        console.log('Score update submitted');
+        window.nodecg.sendMessage('updateScores', [archer0Scores, archer1Scores]);
 
         changedKeys.forEach((v) => { window.nodecg.sendMessage(`arrowChange-${v}`); });
         return false;
