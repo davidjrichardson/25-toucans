@@ -13,4 +13,5 @@ module.exports = function (nodecg) {
 async function init() {
   require('./archerData');
   require('./matchData');
+  require('./shootOffData');
 }
