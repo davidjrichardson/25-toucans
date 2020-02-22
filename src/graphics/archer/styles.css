@@ -30,8 +30,6 @@
     color: black;
     box-shadow: 0 0 8px var(--butts-yellow);
     background-color: var(--butts-yellow);
-
-    grid-column: 8;
 }
 
 .totalTile {
@@ -48,7 +46,6 @@
 }
 
 .scoreTile {
-    width: 51px;
     height: 51px;
 
     border: 2px solid black;
@@ -111,6 +108,6 @@
 .archersContainer {
     display: inline-grid;
     background-color: transparent;
-    grid-template-columns: 1fr repeat(3, 51px) 0px repeat(2, 59px) 85px;
+    grid-template-columns: 1fr repeat(3, 60px) 0px repeat(2, 60px) 85px;
     grid-gap: 17px;
 }

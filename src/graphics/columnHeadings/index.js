@@ -1,4 +1,5 @@
 import m from 'mithril';
+import gsap from 'gsap';
 import {
   columnsContainer, matchTitle, endTitle, totalTitle,
   isGold, isBronze,
@@ -30,6 +31,30 @@ class MatchTitleTile {
 }
 
 class ArrowNumberTile {
+  oncreate(vnode) {
+    const { fadeIndex } = vnode.attrs;
+
+    window.nodecg.listenFor('startShootOff', () => {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
+        opacity: 0,
+        x: -50,
+        delay: 0.15 * fadeIndex,
+      }).then(() => {
+        gsap.set(vnode.dom, { display: 'none' });
+      });
+    });
+
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        opacity: 1,
+        x: 0,
+        display: 'block',
+      });
+    });
+  }
+
   view(vnode) {
     const { end, col } = vnode.attrs;
 
@@ -39,6 +64,30 @@ class ArrowNumberTile {
 }
 
 class TotalTitleTile {
+  oncreate(vnode) {
+    const { fadeIndex } = vnode.attrs;
+
+    window.nodecg.listenFor('startShootOff', () => {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
+        opacity: 0,
+        x: -50,
+        delay: 0.15 * fadeIndex,
+      }).then(() => {
+        gsap.set(vnode.dom, { display: 'none' });
+      });
+    });
+
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        opacity: 1,
+        x: 0,
+        display: 'block',
+      });
+    });
+  }
+
   view(vnode) {
     const { title, col } = vnode.attrs;
 
@@ -50,12 +99,18 @@ class TotalTitleTile {
 export default class ColumnTitlesComponent {
   view(vnode) {
     const { showTimer } = vnode.attrs;
+    const matchTitleFormatted = (matchEndRep.value < 6
+      ? `${matchTitleRep.value} - End ${matchEndRep.value}` : `${matchTitleRep.value} - Shoot off`);
 
     return m('div', { class: `${columnsContainer}` },
-      m(MatchTitleTile, { title: `${matchTitleRep.value} - End ${matchEndRep.value}` }),
-      [1, 2, 3].map((n) => m(ArrowNumberTile, { end: n, col: n })),
-      m(TotalTitleTile, { title: 'E.T.', col: 1 }),
-      m(TotalTitleTile, { title: (safeMatchType() === 'compound' ? 'R.T.' : 'S.P.'), col: 2 }),
+      m(MatchTitleTile, {
+        title: matchTitleFormatted,
+      }), [1, 2, 3].map((n, i) => m(ArrowNumberTile, {
+        end: n,
+        col: n,
+        fadeIndex: (Math.abs(i - 3) + 1),
+      })), m(TotalTitleTile, { title: 'E.T.', col: 1, fadeIndex: 1 }),
+      m(TotalTitleTile, { title: (safeMatchType() === 'compound' ? 'R.T.' : 'S.P.'), col: 2, fadeIndex: 0 }),
       (showTimer ? undefined : undefined));
   }
 }

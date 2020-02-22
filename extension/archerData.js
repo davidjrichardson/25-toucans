@@ -9,7 +9,6 @@ const emptyArchers = () => {
       scores: {
         sets: 0,
         rt: 0,
-        shootOff: '0',
         end: ['', '', '']
       }
     },
@@ -18,7 +17,6 @@ const emptyArchers = () => {
       scores: {
         sets: 0,
         rt: 0,
-        shootOff: '0',
         end: ['', '', '']
       }
     }
@@ -41,7 +39,7 @@ function addScores(a, b) {
     return parseInt(a, 10);
   }
   if (b.endsWith('*')) {
-    return parseInt(a, 10) + parseInt(b.slice(0, 1), 10);
+    return parseInt(a, 10) + parseInt(b.slice(0, b.length - 1), 10);
   }
   if (Number.isNaN(parseInt(b, 10))) {
     return parseInt(a, 10);
@@ -54,8 +52,10 @@ archersRep.on('change', (_, oldVal) => {
 });
 
 matchEndCountRep.on('change', (end, oldVal) => {
-  nodecg.log.info('Now on end', end);
   lastMatchEndVersion = oldVal;
+  if (end === 7) {
+    nodecg.sendMessage('startShootOff');
+  }
 });
 
 nodecg.listenFor('clearArchers', () => {
@@ -88,6 +88,12 @@ nodecg.listenFor('updateScores', (newData) => {
 
 nodecg.listenFor('nextEnd', () => {
   nodecg.log.info('Advancing end');
+  if (matchEndCountRep.value > 5) {
+    // Increment the round count and don't do anything else - we're in shoot-off mode
+    matchEndCountRep.value += 1;
+    return;
+  }
+
   const archers = nodecg.readReplicant('archers', 'archery');
   let archer0 = archers[0];
   let archer1 = archers[1];
@@ -108,27 +114,40 @@ nodecg.listenFor('nextEnd', () => {
     archer1.scores.sets += 2;
   }
 
-  // Reset the arrow values
-  archer0.scores.end = ['', '', ''];
-  archer1.scores.end = ['', '', ''];
-
-  // Update the replicant
-  archersRep.value = [archer0, archer1];
   const matchType = nodecg.readReplicant('matchType', 'archery');
-  // TODO: Check if the recurve archer should win
-  // Handle if a compound archer should win
-  if (matchEndCountRep.value === 5 && matchType === 'compound') {
-    if (archer0.scores.rt >= archer1.scores.rt) {
-      nodecg.log.info('archer 0 wins - sending message');
+  let isWinner = false;
+  if (matchType === 'recurve') {
+    if (archer0.scores.sets >= 6) {
       nodecg.sendMessage('winner-archer0');
-    } else if (archer1.scores.rt >= archer0.scores.rt) {
-      nodecg.log.info('archer 0 wins - sending message');
+      isWinner = true;
+    }
+    if (archer1.scores.sets >= 6) {
+      nodecg.log.info('winner-archer1');
       nodecg.sendMessage('winner-archer1');
+      isWinner = true;
     }
   }
-  // TODO: If we're on end 5, either:
-  // --- The match is a compound match (and a winner needs declaring)
-  // --- OR the match is going to a shoot off
 
+  if (matchEndCountRep.value === 5 && matchType === 'compound') {
+    if (archer0.scores.rt >= archer1.scores.rt) {
+      nodecg.sendMessage('winner-archer0');
+      isWinner = true;
+    }
+    if (archer1.scores.rt >= archer0.scores.rt) {
+      nodecg.sendMessage('winner-archer1');
+      isWinner = true;
+    }
+  }
+  // TODO: If we're on end 5 and there's no winner:
+  // --- the match is going to a shoot off
+
+  // Reset the arrow values
+  if (!isWinner) {
+    archer0.scores.end = ['', '', ''];
+    archer1.scores.end = ['', '', ''];
+  }
+
+  // Update the replicants
+  archersRep.value = [archer0, archer1];
   matchEndCountRep.value += 1;
 });

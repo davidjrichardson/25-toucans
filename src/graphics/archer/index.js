@@ -17,7 +17,7 @@ function parseValue(v) {
     return 0;
   }
   if (v.endsWith('*')) {
-    return parseInt(v.slice(0, 1), 10);
+    return parseInt(v.slice(0, v.length - 1), 10);
   }
   if (Number.isNaN(parseInt(v, 10))) {
     return 0;
@@ -35,9 +35,32 @@ class ArcherNameTile {
 }
 
 class TotalTile {
+  oncreate(vnode) {
+    const { fadeIndex } = vnode.attrs;
+
+    window.nodecg.listenFor('startShootOff', () => {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
+        opacity: 0,
+        x: -50,
+        delay: 0.15 * fadeIndex,
+      }).then(() => {
+        gsap.set(vnode.dom, { display: 'none' });
+      });
+    });
+
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        opacity: 1,
+        x: 0,
+        display: 'block',
+      });
+    });
+  }
+
   view(vnode) {
-    const { value } = vnode.attrs;
-    const { col } = vnode.attrs;
+    const { value, col } = vnode.attrs;
 
     return m('div', { class: `${totalTile}`, style: `grid-column: ${col + 5}` },
       m('span', value));
@@ -66,7 +89,27 @@ class ArrowValueTile {
   }
 
   oncreate(vnode) {
-    const { col, archer } = vnode.attrs;
+    const { col, archer, fadeIndex } = vnode.attrs;
+
+    window.nodecg.listenFor('startShootOff', () => {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
+        opacity: 0,
+        x: -50,
+        delay: 0.15 * fadeIndex,
+      }).then(() => {
+        gsap.set(vnode.dom, { display: 'none' });
+      });
+    });
+
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        opacity: 1,
+        x: 0,
+        display: 'block',
+      });
+    });
 
     window.nodecg.listenFor(`arrowChange-archer${archer}-arrow${col}`, () => {
       gsap.fromTo(`#arrowFlash-archer${archer}-arrow${col}`, {
@@ -92,14 +135,6 @@ class WinnerTile {
   oncreate(vnode) {
     const { archer } = vnode.attrs;
 
-    const slideIn = gsap.from(vnode.dom, {
-      ease: 'power4',
-      paused: true,
-      opacity: 0.0,
-      duration: 0.5,
-      x: -50,
-    });
-
     window.nodecg.listenFor('clearArchers', () => {
       gsap.set(vnode.dom, {
         opacity: 0.0,
@@ -108,7 +143,12 @@ class WinnerTile {
     });
 
     window.nodecg.listenFor(`winner-archer${archer}`, () => {
-      slideIn.restart();
+      gsap.from(vnode.dom, {
+        ease: 'power4',
+        opacity: 0.0,
+        duration: 0.5,
+        x: -50,
+      });
     });
   }
 
@@ -130,11 +170,19 @@ export default class ArcherNamesComponent {
 
     return m('div', { class: `${archersContainer}`, style: `grid-row: ${row};` },
       m(ArcherNameTile, { name: archerData.name }),
-      ...archerData.scores.end.map((s, i) => m(ArrowValueTile, { archer, value: s, col: i })),
-      m(TotalTile, { value: archerData.scores.end.reduce(addScores, 0), col: 1 }),
-      m(TotalTile, {
+      ...archerData.scores.end.map((s, i) => m(ArrowValueTile, {
+        archer,
+        value: s,
+        col: i,
+        fadeIndex: (Math.abs(i - 3) + 1),
+      })), m(TotalTile, {
+        value: archerData.scores.end.reduce(addScores, 0),
+        col: 1,
+        fadeIndex: 1,
+      }), m(TotalTile, {
         value: (matchTypeRep.value === 'recurve' ? archerData.scores.sets : archerData.scores.rt + archerData.scores.end.reduce(addScores, 0)),
         col: 2,
+        fadeIndex: 0,
       }), m(WinnerTile, { archer }));
   }
 }

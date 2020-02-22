@@ -42,6 +42,13 @@
         "headerColor": "#5B27FF"
       },
       {
+        "name": "shoot-off",
+        "title": "Shoot off",
+        "width": 3,
+        "file": "shootOff/index.html",
+        "headerColor": "#5B27FF"
+      },
+      {
         "name": "timing",
         "title": "Timing",
         "width": 3,

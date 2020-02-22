@@ -117,11 +117,10 @@ class ColumnHeadingsComponent {
   view() {
     return m('div', { class: `${inputRow} ${colHeadings}` },
       [1, 2, 3].map((x) => m(ColumnTitleComponent, { text: `Arrow ${x}`, col: (x + 1) })),
-      m(ColumnTitleComponent, { text: 'Shoot off', col: 6 }),
-      m(ColumnTitleComponent, { text: 'End total', col: 8 }),
+      m(ColumnTitleComponent, { text: 'End total', col: 6 }),
       m(ColumnTitleComponent, {
         text: (matchTypeRep.value === 'recurve' ? 'Set points' : 'Running total'),
-        col: 9,
+        col: 7,
       }));
   }
 }
@@ -183,22 +182,16 @@ class ArcherInputComponent {
       })),
       m(GenericInputComponent, {
         archer,
-        value: archersRep.value[archer].scores.shootOff,
-        name: 'shootOff',
-        gridCol: 6,
-      }),
-      m(GenericInputComponent, {
-        archer,
         value: archersRep.value[archer].scores.end.reduce(addScores, 0),
         name: 'endTotal',
-        gridCol: 8,
+        gridCol: 6,
         disabled: true,
       }),
       m(GenericInputComponent, {
         archer,
         value: (matchTypeRep.value === 'recurve' ? archersRep.value[archer].scores.sets : archersRep.value[archer].scores.rt),
         name: 'matchTotal',
-        gridCol: 9,
+        gridCol: 7,
         disabled: true,
       }));
   }

@@ -1,6 +1,6 @@
 .columnsContainer {
     grid-row: 1;
-    grid-template-columns: 1fr repeat(3, 51px) 0px repeat(2, 59px) 85px;
+    grid-template-columns: 1fr repeat(3, 60px) 0px repeat(2, 60px) 85px;
     gap: 17px;
 
     display: inline-grid;
@@ -17,6 +17,7 @@
     padding: 2px 4px;
     margin-top: 63px;
     margin-left: 5px;
+    margin-right: 5px;
 
     border: 2px solid white;
     border-radius: 2px;
