@@ -7,43 +7,12 @@
   align-items: center;
 }
 
-.centerInput {
-  text-align: center;
-}
-
 .buttonRow {
     display: grid;
     grid-template-columns: max-content max-content auto max-content 0px min-content;
     align-items: center;
 
     gap: 15px;
-}
-
-.buttonRed {
-    background-color: var(--butts-red);
-}
-
-.buttonRed:hover,
-.buttonRed:focus {
-    background-color: var(--butts-red-2);
-}
-
-.buttonBlue {
-    background-color: var(--butts-blue);
-}
-
-.buttonBlue:hover,
-.buttonBlue:focus {
-    background-color: var(--butts-blue-2);
-}
-
-.buttonGreen {
-    background-color: var(--butts-green);
-}
-
-.buttonGreen:hover,
-.buttonGreen:focus {
-    background-color: var(--butts-green-2);
 }
 
 .inputGrid {
@@ -53,21 +22,4 @@
   gap: 15px;
 
   padding-right: 15px;
-}
-
-.colHeadings {
-  align-items: end;
-}
-
-.colTitle {
-  font-weight: bold;
-  font-size: 14px;
-
-  justify-self: center;
-  text-align: center;
-}
-
-.archerName {
-  font-weight: bold;
-  display: block;
 }

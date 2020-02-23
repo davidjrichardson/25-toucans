@@ -17,7 +17,7 @@ const emptyShootOff = () => {
 
 const shootOffRep = nodecg.Replicant('shootOff', 'archery', {
   persistent: false,
-  defaultValue: emptyShootOff,
+  defaultValue: emptyShootOff(),
 });
 
 nodecg.listenFor('clearArchers', () => {
@@ -25,6 +25,15 @@ nodecg.listenFor('clearArchers', () => {
   shootOffRep.value = emptyShootOff();
 });
 
+nodecg.listenFor('clearShootoff', () => {
+  nodecg.log.info('Clearing shootOff values');
+  shootOffRep.value = emptyShootOff();
+});
+
 nodecg.listenFor('updateShootOff', (data) => {
   // TODO: Update the replicant
 });
+
+nodecg.listenFor('declareWinner', () => {
+  // TODO: Declare the shootOff winner
+})

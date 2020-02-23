@@ -5,19 +5,19 @@ import {
   button,
   form,
   disabledInput,
+  centerInput,
+  inputGrid,
+  buttonGreen,
+  buttonRed,
+  buttonBlue,
+  colHeadings,
+  colTitle,
+  archerName,
 } from '../common.css';
 
 import {
   inputRow,
-  inputGrid,
-  archerName,
-  colHeadings,
-  colTitle,
-  centerInput,
   buttonRow,
-  buttonGreen,
-  buttonRed,
-  buttonBlue,
 } from './styles.css';
 
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');

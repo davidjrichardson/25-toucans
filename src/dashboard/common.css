@@ -81,6 +81,15 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.inputGrid {
+  display: grid;
+
+  grid-template-rows: 40px repeat(2, 1fr) 32px;
+  gap: 15px;
+
+  padding-right: 15px;
+}
+
 .disabledInput,
 .disabledInput:hover,
 .disabledInput:focus {
@@ -103,4 +112,52 @@
 .button:focus {
   background-color: var(--butts-purple);
   cursor: pointer;
+}
+
+.centerInput {
+  text-align: center;
+}
+
+.archerName {
+  font-weight: bold;
+  display: block;
+}
+
+.colHeadings {
+  align-items: end;
+}
+
+.colTitle {
+  font-weight: bold;
+  font-size: 14px;
+
+  justify-self: center;
+  text-align: center;
+}
+
+.buttonRed {
+  background-color: var(--butts-red);
+}
+
+.buttonRed:hover,
+.buttonRed:focus {
+  background-color: var(--butts-red-2);
+}
+
+.buttonBlue {
+  background-color: var(--butts-blue);
+}
+
+.buttonBlue:hover,
+.buttonBlue:focus {
+  background-color: var(--butts-blue-2);
+}
+
+.buttonGreen {
+  background-color: var(--butts-green);
+}
+
+.buttonGreen:hover,
+.buttonGreen:focus {
+  background-color: var(--butts-green-2);
 }

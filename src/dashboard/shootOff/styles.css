@@ -1,0 +1,16 @@
+.inputRow {
+  display: inline-grid;
+
+  grid-template-columns: 1fr repeat(2, 80px);
+  gap: 15px;
+
+  align-items: center;
+}
+
+.buttonRow {
+  display: grid;
+  grid-template-columns: max-content auto max-content 0px min-content;
+  align-items: center;
+
+  gap: 15px;
+}
