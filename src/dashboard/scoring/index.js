@@ -137,6 +137,17 @@ function clearArchers() {
   window.nodecg.sendMessage('clearArchers');
 }
 
+const getNextEndText = () => {
+  if (matchEndRep.value < 6) {
+    return 'Next end';
+  }
+  if (matchEndRep.value === 6) {
+    return 'Start shoot off';
+  }
+
+  return 'Shoot off in progress';
+};
+
 class ButtonRowComponent {
   view() {
     return m('div', { class: `${buttonRow}` },
@@ -157,7 +168,7 @@ class ButtonRowComponent {
         col: 3,
       }),
       m(GenericButtonComponent, {
-        text: 'Next end',
+        text: getNextEndText(),
         call: nextEnd,
         extraStyles: 'grid-column: 4',
         extraClasses: `${buttonGreen}`,
