@@ -26,6 +26,11 @@
     background-color: var(--butts-purple);
 }
 
+.shootOffTitle {
+    display: none;
+    opacity: 0;
+}
+
 .isGold {
     background-color: var(--butts-yellow);
     color: black;

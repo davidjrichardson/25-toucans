@@ -5,6 +5,7 @@ module.exports = function (nodecg) {
   nodecgApiContext.set(nodecg);
   init().then(() => {
     nodecg.log.info('Initialisation successful');
+    nodecg.sendMessage('clearAchers');
   }).catch((error) => {
     nodecg.log.error('Failed to initialise:', error);
   });

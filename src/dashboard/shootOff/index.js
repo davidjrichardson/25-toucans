@@ -123,7 +123,7 @@ class SubmitButtonComponent {
 }
 
 function clearShootOff() {
-  window.nodecg.sendMessage('clearShootOff');
+  window.nodecg.sendMessage('clearShootoff');
 }
 
 function declareWinner() {
@@ -131,9 +131,7 @@ function declareWinner() {
   const closestArrow = formData.get('isCloser');
 
   // If there's a closest arrow decision
-  if (closestArrow) {
-    window.nodecg.sendMessage('declareWinner', closestArrow);
-  }
+  window.nodecg.sendMessage('declareWinner', closestArrow);
 }
 
 class ButtonRowComponent {

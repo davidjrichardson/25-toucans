@@ -4,7 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const gfxSrcFolders = ['scoresRecurve'];
+const gfxSrcFolders = ['scoresThird'];
 const gfxSrcPath = path.join(__dirname, 'src', 'graphics');
 const gfxSrcs = gfxSrcFolders.map(gfxSrc => ({
     name: gfxSrc,

@@ -2,7 +2,7 @@ import m from 'mithril';
 import gsap from 'gsap';
 import {
   columnsContainer, matchTitle, endTitle, totalTitle,
-  isGold, isBronze,
+  isGold, isBronze, shootOffTitle,
 } from './styles.css';
 
 const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
@@ -27,6 +27,38 @@ class MatchTitleTile {
 
     return m('div', { class: `${matchTitle} ${this.getColour(title)}` },
       m('span', title));
+  }
+}
+
+class ShootOffTitleTile {
+  oncreate(vnode) {
+    const { fadeIndex } = vnode.attrs;
+
+    window.nodecg.listenFor('startShootOff', () => {
+      gsap.fromTo(vnode.dom, {
+        display: 'block',
+        opacity: 0,
+        x: -50,
+      }, {
+        ease: 'power4.out',
+        x: 0,
+        opacity: 1,
+        delay: 1 + 0.15 * fadeIndex,
+      });
+    });
+
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        opacity: 0,
+        x: -50,
+        display: 'none',
+      });
+    });
+  }
+
+  view() {
+    return m('div', { class: `${matchTitle} ${shootOffTitle}` },
+      m('span', 'S.O.'));
   }
 }
 
@@ -97,8 +129,7 @@ class TotalTitleTile {
 }
 
 export default class ColumnTitlesComponent {
-  view(vnode) {
-    const { showTimer } = vnode.attrs;
+  view() {
     const matchTitleFormatted = (matchEndRep.value < 6
       ? `${matchTitleRep.value} - End ${matchEndRep.value}` : `${matchTitleRep.value} - Shoot off`);
 
@@ -111,7 +142,7 @@ export default class ColumnTitlesComponent {
         fadeIndex: (Math.abs(i - 3) + 1),
       })), m(TotalTitleTile, { title: 'E.T.', col: 1, fadeIndex: 1 }),
       m(TotalTitleTile, { title: (safeMatchType() === 'compound' ? 'R.T.' : 'S.P.'), col: 2, fadeIndex: 0 }),
-      (showTimer ? undefined : undefined));
+      m(ShootOffTitleTile, { fadeIndex: 7 }));
   }
 }
 

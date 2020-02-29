@@ -138,8 +138,6 @@ nodecg.listenFor('nextEnd', () => {
       isWinner = true;
     }
   }
-  // TODO: If we're on end 5 and there's no winner:
-  // --- the match is going to a shoot off
 
   // Reset the arrow values
   if (!isWinner) {
