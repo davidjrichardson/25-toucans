@@ -15,4 +15,5 @@ async function init() {
   require('./archerData');
   require('./matchData');
   require('./shootOffData');
+  require('./timer');
 }

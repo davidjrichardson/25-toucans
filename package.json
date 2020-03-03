@@ -49,10 +49,17 @@
         "headerColor": "#5B27FF"
       },
       {
-        "name": "timing",
-        "title": "Timing",
-        "width": 3,
-        "file": "timing/index.html",
+        "name": "end-timer",
+        "title": "End timer",
+        "width": 2,
+        "file": "endTimer/index.html",
+        "headerColor": "#5B27FF"
+      },
+      {
+        "name": "match-timer",
+        "title": "Match timer",
+        "width": 4,
+        "file": "matchTimer/index.html",
         "headerColor": "#5B27FF"
       }
     ],
