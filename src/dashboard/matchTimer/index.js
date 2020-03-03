@@ -57,7 +57,7 @@ class TimeRemainingComponent {
     const { time, archer } = vnode.attrs;
 
     return m('div', { class: `${timeLeftColumn}` },
-      m('span', { style: 'display: block;' }, `Archer ${archer + 1} time:`),
+      m('span', { style: 'display: block;' }, `${archersRep.value[archer].name}`),
       m('div', { class: `${timeLeftWrapper} ${getTimerColour(time)}` },
         m('span', { class: `${timeLeft}` }, `${time}s/`),
         m('span', { class: `${timeLeft}`, style: 'font-size: 16px !important;' }, '20s')));
