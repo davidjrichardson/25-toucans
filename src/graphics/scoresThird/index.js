@@ -4,15 +4,19 @@ import gsap from 'gsap';
 import ArcherComponent from '../archer';
 import ColumnTitlesComponent from '../columnHeadings';
 import {
-  container, toucan, leagueBrand, infoGrid, thirdsGrid,
-} from '../common.css';
-
-import {
-  globalTimerContainer,
+  container,
+  toucan,
+  leagueBrand,
+  infoGrid,
+  thirdsGrid,
   timerTile,
   ggTime,
   timerRed,
   timerAmber,
+} from '../common.css';
+
+import {
+  globalTimerContainer,
 } from './styles.css';
 
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
@@ -111,7 +115,7 @@ class GlobalTimerTile {
       class: `${timerTile} ${getTimerColour()}`,
       style: 'opacity: 0; transform: translate(-50px);',
     },
-      m('span', m('i', { class: `${ggTime}`, style: 'margin-right: 6px;' }), `${time}s`));
+    m('span', m('i', { class: `${ggTime}`, style: 'margin-right: 6px;' }), `${time}s`));
   }
 }
 
