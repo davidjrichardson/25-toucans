@@ -74,8 +74,8 @@ class GlobalTimerTile {
 
     window.nodecg.listenFor('clearArchers', () => {
       gsap.set(vnode.dom, {
-        opacity: 1,
-        x: 0,
+        opacity: 0,
+        x: -50,
         display: 'block',
       });
     });
@@ -107,7 +107,10 @@ class GlobalTimerTile {
   view(vnode) {
     const { time } = vnode.attrs;
 
-    return m('div', { class: `${timerTile} ${getTimerColour()}` },
+    return m('div', {
+      class: `${timerTile} ${getTimerColour()}`,
+      style: 'opacity: 0; transform: translate(-50px);',
+    },
       m('span', m('i', { class: `${ggTime}`, style: 'margin-right: 6px;' }), `${time}s`));
   }
 }

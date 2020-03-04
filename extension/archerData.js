@@ -60,6 +60,7 @@ matchEndCountRep.on('change', (end, oldVal) => {
 
 nodecg.listenFor('clearArchers', () => {
   nodecg.log.info('Clearing archers');
+  nodecg.sendMessage('resetGlobalTimer');
   const name0 = archersRep.value[0].name;
   const name1 = archersRep.value[1].name;
   archersRep.value = emptyArchers();

@@ -4,7 +4,6 @@
     gap: 17px;
 
     display: inline-grid;
-    margin-top: -7px;
 }
 
 .timerTile {
@@ -13,26 +12,33 @@
     justify-self: end;
     align-self: center;
 
-    font-size: 24px;
     padding: 2px 4px 2px 8px;
     margin-right: 5px;
+    margin-top: -10px;
+
+    font-size: 24px;
     text-align: center;
 
     border: 2px solid white;
     border-radius: 4px;
     color: var(--butts-purple-text);
     background-color: var(--butts-purple);
+
+    transition: background-color 0.3s ease-in-out, 
+        color 0.2s ease-in-out,
+        border-color 0.2s ease-in-out;
 }
 
 .timerAmber {
     color: black;
-    background-color: var(--butts-yellow);
+    background-color: #FFBF00;
     border-color: black;
 }
 
 .timerRed {
     color: white;
-    background-color: var(--butts-red);
+    background-color: #CC0000;
+    border-color: white;
 }
 
 .ggTime {
