@@ -55,11 +55,6 @@ function parseValue(v) {
 }
 
 nodecg.listenFor('declareWinner', (closestArrow) => {
-  // const matchEnd = nodecg.readReplicant('matchEndCount', 'archery');
-  // if (matchEnd < 7) { // Exit early if we're not in a shoot off yet
-  //   return;
-  // }
-
   const archer0 = shootOffRep.value[0];
   const archer0Clean = parseValue(archer0.value);
   const archer1 = shootOffRep.value[1];

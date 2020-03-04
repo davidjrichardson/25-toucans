@@ -37,7 +37,7 @@ body {
 
 .thirdsGrid {
   display: grid;
-  grid-template-rows: 86px repeat(2, 51px);
+  grid-template-rows: 86px repeat(2, 51px) 37px;
   gap: 17px;
 }
 

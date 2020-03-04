@@ -101,6 +101,11 @@ window.nodecg.listenFor('globalTimerFinished', () => {
   document.getElementById('pauseGlobalButton').style.display = 'none';
 });
 
+window.nodecg.listenFor('nextEnd', () => {
+  document.getElementById('startGlobalButton').style.display = 'block';
+  document.getElementById('pauseGlobalButton').style.display = 'none';
+});
+
 class TimingControlComponent {
   view() {
     return m('div',

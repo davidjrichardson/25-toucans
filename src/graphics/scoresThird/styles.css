@@ -1,0 +1,61 @@
+.globalTimerContainer {
+    grid-row: 4;
+    grid-template-columns: 1fr repeat(3, 60px) 0px repeat(2, 60px) 85px;
+    gap: 17px;
+
+    display: inline-grid;
+    margin-top: -7px;
+}
+
+.timerTile {
+    display: inline-block;
+
+    justify-self: end;
+    align-self: center;
+
+    font-size: 24px;
+    padding: 2px 4px 2px 8px;
+    margin-right: 5px;
+    text-align: center;
+
+    border: 2px solid white;
+    border-radius: 4px;
+    color: var(--butts-purple-text);
+    background-color: var(--butts-purple);
+}
+
+.timerAmber {
+    color: black;
+    background-color: var(--butts-yellow);
+    border-color: black;
+}
+
+.timerRed {
+    color: white;
+    background-color: var(--butts-red);
+}
+
+.ggTime {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    transform: scale(var(--ggs,1));
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: 3px solid transparent;
+    box-shadow: 0 0 0 3px currentColor
+}
+
+.ggTime::after {
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-left: 3px solid;
+    border-bottom: 3px solid;
+    top: 3px;
+    left: 5px;
+}

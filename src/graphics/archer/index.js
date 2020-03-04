@@ -3,12 +3,13 @@ import gsap from 'gsap';
 import {
   archerTile, archersContainer, scoreTile, isGold, isDefault,
   isRed, isWhite, isBlue, isBlack, totalTile, winnerTile,
-  scoreTileFlash,
+  scoreTileFlash, timerTile,
 } from './styles.css';
 
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
 const shootOffRep = window.NodeCG.Replicant('shootOff', 'archery');
+const archerTimersRep = window.NodeCG.Replicant('archerTimers', 'archery');
 
 function parseValue(v) {
   if (v === '' || v === '-') {
@@ -32,6 +33,43 @@ class ArcherNameTile {
 
     return m('div', { class: `${archerTile}` },
       m('span', name));
+  }
+}
+
+class ShootOffTimerTile {
+  oncreate(vnode) {
+    const { fadeIndex } = vnode.attrs;
+
+    // TODO: Fade in/out when starting/stopping timers
+
+    window.nodecg.listenFor('startShootOff', () => {
+      gsap.fromTo(vnode.dom, {
+        opacity: 0,
+        x: -50,
+        display: 'block',
+      }, {
+        ease: 'power4.out',
+        duration: 0.5,
+        opacity: 1,
+        x: 0,
+        delay: 1 + 0.15 * fadeIndex,
+      });
+    });
+
+    window.nodecg.listenFor('clearArchers', () => {
+      gsap.set(vnode.dom, {
+        x: -50,
+        opacity: 0,
+        display: 'none',
+      });
+    });
+  }
+
+  view(vnode) {
+    const { archer } = vnode.attrs;
+
+    return m('div', { class: `${timerTile}` },
+      m('span', `${archerTimersRep.value[archer]}s`));
   }
 }
 
@@ -247,3 +285,5 @@ export default class ArcherNamesComponent {
 
 archersRep.on('change', () => { m.redraw(); });
 shootOffRep.on('change', () => { m.redraw(); });
+matchTypeRep.on('change', () => { m.redraw(); });
+archerTimersRep.on('change', () => { m.redraw(); });
