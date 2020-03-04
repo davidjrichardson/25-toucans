@@ -48,10 +48,14 @@ class ShootOffTitleTile {
     });
 
     window.nodecg.listenFor('clearArchers', () => {
+      const delay = Math.abs(fadeIndex - 8) * 0.15;
+
       gsap.set(vnode.dom, {
-        opacity: 0,
+        ease: 'power4.out',
         x: -50,
+        opacity: 0,
         display: 'none',
+        delay,
       });
     });
   }
@@ -79,11 +83,21 @@ class ArrowNumberTile {
     });
 
     window.nodecg.listenFor('clearArchers', () => {
-      gsap.set(vnode.dom, {
-        opacity: 1,
-        x: 0,
-        display: 'block',
-      });
+      if ((vnode.dom.style.opacity || '1') === '0') {
+        const delay = Math.abs(fadeIndex - 8) * 0.15 * 1000;
+        window.setTimeout(() => {
+          gsap.fromTo(vnode.dom, {
+            opacity: 0,
+            x: -50,
+            display: 'block',
+          }, {
+            ease: 'power4.out',
+            duration: 0.5,
+            opacity: 1,
+            x: 0,
+          });
+        }, delay);
+      }
     });
   }
 
@@ -112,11 +126,21 @@ class TotalTitleTile {
     });
 
     window.nodecg.listenFor('clearArchers', () => {
-      gsap.set(vnode.dom, {
-        opacity: 1,
-        x: 0,
-        display: 'block',
-      });
+      if ((vnode.dom.style.opacity || '1') === '0') {
+        const delay = Math.abs(fadeIndex - 8) * 0.15 * 1000;
+        window.setTimeout(() => {
+          gsap.fromTo(vnode.dom, {
+            opacity: 0,
+            x: -50,
+            display: 'block',
+          }, {
+            ease: 'power4.out',
+            duration: 0.5,
+            opacity: 1,
+            x: 0,
+          });
+        }, delay);
+      }
     });
   }
 

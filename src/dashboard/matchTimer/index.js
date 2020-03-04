@@ -96,6 +96,12 @@ function resetTimers() {
   document.getElementById('pauseTimerButton').style.display = 'none';
 }
 
+window.nodecg.listenFor('clearArchers', () => {
+  document.getElementById('startShootOffTimers').style.display = 'block';
+  document.getElementById('nextArcherButton').style.display = 'none';
+  document.getElementById('pauseTimerButton').style.display = 'none';
+});
+
 class TimingControlComponent {
   view() {
     return m('div', { class: 'foo' },
