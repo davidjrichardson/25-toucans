@@ -6,6 +6,11 @@ import {
   scoreTileFlash, timerTile,
 } from './styles.css';
 
+import {
+  timerRed,
+  timerAmber,
+} from '../common.css';
+
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
 const matchTypeRep = window.NodeCG.Replicant('matchType', 'archery');
 const shootOffRep = window.NodeCG.Replicant('shootOff', 'archery');
@@ -27,6 +32,16 @@ function parseValue(v) {
   return parseInt(v, 10);
 }
 
+function getTimerColour(time) {
+  if (time === 0) {
+    return `${timerRed}`;
+  }
+  if (time <= 10) {
+    return `${timerAmber}`;
+  }
+  return '';
+}
+
 class ArcherNameTile {
   view(vnode) {
     const { name } = vnode.attrs;
@@ -40,7 +55,28 @@ class ShootOffTimerTile {
   oncreate(vnode) {
     const { fadeIndex } = vnode.attrs;
 
-    // TODO: Fade in/out when starting/stopping timers
+    window.nodecg.listenFor('stopShootOffTimers', () => {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
+        opacity: 0,
+        display: 'none',
+        x: -50,
+      });
+    });
+
+    window.nodecg.listenFor('startShootOffTimers', () => {
+      // Check if the timer is already visible - if it is then don't animate
+      if ((vnode.dom.style.opacity || '1') === '0') {
+        gsap.to(vnode.dom, {
+          duration: 0.5,
+          ease: 'power4.out',
+          display: 'block',
+          opacity: 1,
+          x: 0,
+        });
+      }
+    });
 
     window.nodecg.listenFor('startShootOff', () => {
       gsap.fromTo(vnode.dom, {
@@ -66,10 +102,15 @@ class ShootOffTimerTile {
   }
 
   view(vnode) {
-    const { archer } = vnode.attrs;
+    const { time } = vnode.attrs;
 
-    return m('div', { class: `${timerTile}` },
-      m('span', `${archerTimersRep.value[archer]}s`));
+    // TODO: If the match is configured so it's alternating detail, use this instead
+
+    return m('div', {
+      class: `${timerTile} ${getTimerColour(time)}`,
+      style: 'opacity: 0; transform: translate(-50px); display: none;',
+    },
+    m('span', `${time}s`));
   }
 }
 
@@ -279,6 +320,7 @@ export default class ArcherNamesComponent {
         col: 2,
         fadeIndex: 0,
       }), m(ShootOffTile, { archer, fadeIndex: 7, value: shootOffRep.value[archer].value }),
+      m(ShootOffTimerTile, { time: archerTimersRep.value[archer], fadeIndex: 8 }),
       m(WinnerTile, { archer }));
   }
 }

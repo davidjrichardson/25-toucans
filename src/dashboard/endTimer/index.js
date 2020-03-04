@@ -85,16 +85,23 @@ const pauseGlobalTimer = () => {
 
 const resetGlobalTimer = () => {
   window.nodecg.sendMessage('resetGlobalTimer');
+
   document.getElementById('startGlobalButton').style.display = 'block';
   document.getElementById('pauseGlobalButton').style.display = 'none';
 };
 
 const setGlobalTimer20s = () => {
   window.nodecg.sendMessage('setGlobalTimer', 20);
+
+  document.getElementById('startGlobalButton').style.display = 'block';
+  document.getElementById('pauseGlobalButton').style.display = 'none';
 };
 
 const setGlobalTimer120s = () => {
   window.nodecg.sendMessage('setGlobalTimer', 120);
+
+  document.getElementById('startGlobalButton').style.display = 'block';
+  document.getElementById('pauseGlobalButton').style.display = 'none';
 };
 
 window.nodecg.listenFor('globalTimerFinished', () => {

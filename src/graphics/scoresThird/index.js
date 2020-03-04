@@ -9,14 +9,14 @@ import {
   leagueBrand,
   infoGrid,
   thirdsGrid,
-  timerTile,
-  ggTime,
   timerRed,
   timerAmber,
 } from '../common.css';
 
 import {
   globalTimerContainer,
+  timerTile,
+  ggTime,
 } from './styles.css';
 
 const archersRep = window.NodeCG.Replicant('archers', 'archery');
@@ -77,10 +77,14 @@ class GlobalTimerTile {
     });
 
     window.nodecg.listenFor('clearArchers', () => {
-      gsap.set(vnode.dom, {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
         opacity: 0,
         x: -50,
         display: 'block',
+      }).then(() => {
+        window.nodecg.sendMessage('resetGlobalTimer');
       });
     });
 
@@ -96,6 +100,17 @@ class GlobalTimerTile {
       }
     });
 
+    window.nodecg.listenFor('resetGlobalTimer', () => {
+      gsap.to(vnode.dom, {
+        duration: 0.5,
+        ease: 'power4.in',
+        opacity: 0,
+        x: -50,
+      }).then(() => {
+        window.nodecg.sendMessage('resetGlobalTimerActual');
+      });
+    });
+
     window.nodecg.listenFor('nextEnd', () => {
       gsap.to(vnode.dom, {
         duration: 0.5,
@@ -103,7 +118,7 @@ class GlobalTimerTile {
         opacity: 0,
         x: -50,
       }).then(() => {
-        window.nodecg.sendMessage('resetGlobalTimer');
+        window.nodecg.sendMessage('resetGlobalTimerActual');
       });
     });
   }

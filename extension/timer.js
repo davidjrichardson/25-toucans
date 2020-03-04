@@ -128,7 +128,7 @@ nodecg.listenFor('setGlobalTimer', (time) => {
   globalTimerRep.value.startTime = time;
 });
 
-nodecg.listenFor('resetGlobalTimer', () => {
+nodecg.listenFor('resetGlobalTimerActual', () => {
   globalTimer.pause();
   globalTimerRep.value.time = globalTimerRep.value.startTime;
 });
