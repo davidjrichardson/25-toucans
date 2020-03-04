@@ -121,13 +121,6 @@ class TimingControlComponent {
         extraStyles: 'display: none;',
       }),
       m(GenericButtonComponent, {
-        id: 'resetGlobalButton',
-        text: 'Reset',
-        call: resetGlobalTimer,
-        extraClasses: `${buttonRed}`,
-      }),
-      m('div', { class: `${sectionSpacer}` }),
-      m(GenericButtonComponent, {
         id: 'setGlobalTime20',
         text: 'Set timer (20s)',
         call: setGlobalTimer20s,
@@ -140,6 +133,13 @@ class TimingControlComponent {
         call: setGlobalTimer120s,
         extraClasses: `${buttonBlue}`,
         extraStyles: `display: ${globalTimerRep.value.startTime === 120 ? 'none' : 'block'}`,
+      }),
+      m('div', { class: `${sectionSpacer}` }),
+      m(GenericButtonComponent, {
+        id: 'resetGlobalButton',
+        text: 'Reset',
+        call: resetGlobalTimer,
+        extraClasses: `${buttonRed}`,
       }));
   }
 }
