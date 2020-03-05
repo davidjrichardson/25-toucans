@@ -106,6 +106,10 @@ class ShootOffTimerTile {
         window.nodecg.sendMessage('resetArcherTimers');
       });
     });
+
+    window.nodecg.listenFor('clearShootoff', () => {
+      window.nodecg.sendMessage('resetArcherTimers');
+    });
   }
 
   view(vnode) {
@@ -272,6 +276,7 @@ class ShootOffTile {
         x: -50,
         opacity: 0,
         display: 'none',
+        duration: 0.5,
         delay,
       });
     });
@@ -291,9 +296,11 @@ class WinnerTile {
     const { archer } = vnode.attrs;
 
     window.nodecg.listenFor('clearArchers', () => {
-      gsap.set(vnode.dom, {
+      gsap.to(vnode.dom, {
+        ease: 'power4.out',
         opacity: 0.0,
         x: -50,
+        duration: 0.5,
       });
     });
 
@@ -302,24 +309,22 @@ class WinnerTile {
         ease: 'power4.out',
         opacity: 0.0,
         x: -50,
+        duration: 0.5,
       });
     });
 
     window.nodecg.listenFor(`winner-archer${archer}`, () => {
-      gsap.fromTo(vnode.dom, {
-        opacity: 0.0,
-        x: -50,
-      }, {
+      gsap.to(vnode.dom, {
         ease: 'power4.in',
         duration: 0.5,
-        x: 0,
         opacity: 1,
+        x: 0,
       });
     });
   }
 
   view() {
-    return m('div', { class: `${winnerTile}`, style: 'opacity: 0;' },
+    return m('div', { class: `${winnerTile}`, style: 'opacity: 0; transform: translate(-50px);' },
       m('span', 'WINNER!'));
   }
 }
