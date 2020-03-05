@@ -37,8 +37,6 @@ class GenericTile {
   }
 }
 
-// TODO: Create a tile for the match end (Morning/Afternoon Ranking Session)
-
 class LowerThirdsComponent {
   view() {
     return m('div', { class: `${infoGrid}` },
