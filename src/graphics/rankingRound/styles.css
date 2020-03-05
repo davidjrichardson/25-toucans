@@ -1,0 +1,16 @@
+.archerTile {
+    font-size: 36px;
+    line-height: 47px;
+
+    text-align: right;
+
+    background-color: var(--butts-purple);
+    color: var(--butts-purple-text);
+
+    border: 2px solid white;
+    border-radius: 4px;
+
+    padding: 0 8px;
+
+    grid-column: 1;
+}
