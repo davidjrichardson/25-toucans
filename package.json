@@ -61,11 +61,24 @@
         "width": 4,
         "file": "matchTimer/index.html",
         "headerColor": "#5B27FF"
+      },
+      {
+        "name": "end-counter",
+        "title": "End counter",
+        "width": 2,
+        "file": "endCounter/index.html",
+        "headerColor": "#5B27FF"
       }
     ],
     "graphics": [
       {
         "file": "scoresThird/index.html",
+        "width": 1920,
+        "height": 1080,
+        "singleInstance": false
+      },
+      {
+        "file": "rankingRound/index.html",
         "width": 1920,
         "height": 1080,
         "singleInstance": false

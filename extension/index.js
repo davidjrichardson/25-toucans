@@ -16,4 +16,5 @@ async function init() {
   require('./matchData');
   require('./shootOffData');
   require('./timer');
+  require('./rankingRound');
 }
