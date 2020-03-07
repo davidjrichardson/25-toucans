@@ -20,7 +20,7 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 *, *:before, *:after {
@@ -65,6 +65,32 @@ body {
   font-weight: 600;
 
   background-color: var(--chroma-green);
+}
+
+.clickersBrand {
+  background-image: url('assets/clickers.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  width: 150px;
+  height: 150px;
+
+  border-radius: 100%;
+}
+
+.clickersContainer {
+  position: absolute;
+  right: 50px;
+  bottom: 64px;
+}
+
+.sponsoredBy {
+  font-size: 22px;
+  color: white;
+  margin-bottom: 10px;
+
+  display: block;
+  text-align: center;
 }
 
 .leagueBrand {

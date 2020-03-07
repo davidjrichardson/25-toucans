@@ -11,6 +11,9 @@ import {
   thirdsGrid,
   timerRed,
   timerAmber,
+  clickersBrand,
+  clickersContainer,
+  sponsoredBy,
 } from '../common.css';
 
 import {
@@ -30,6 +33,15 @@ class ToucanImageComponent {
     return m('div', { class: `${toucan}` });
   }
 }
+
+class ClickersBrandComponent {
+  view() {
+    return m('div', { class: `${clickersContainer}` },
+      m('span', { class: `${sponsoredBy}` }, 'Sponsored by:'),
+      m('div', { class: `${clickersBrand}` }));
+  }
+}
+
 
 class LeagueBrandComponent {
   view() {
@@ -166,7 +178,8 @@ class LowerThirdsComponent {
 class ScoresComponent {
   view() {
     return m('div', { class: `${container}` },
-      m(LowerThirdsComponent));
+      m(LowerThirdsComponent),
+      m(ClickersBrandComponent));
   }
 }
 

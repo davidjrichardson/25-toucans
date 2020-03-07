@@ -6,6 +6,9 @@ import {
   leagueBrand,
   infoGrid,
   thirdsGrid,
+  clickersBrand,
+  clickersContainer,
+  sponsoredBy,
 } from '../common.css';
 
 import {
@@ -18,6 +21,14 @@ const matchTitleRep = window.NodeCG.Replicant('matchTitle', 'archery');
 class ToucanImageComponent {
   view() {
     return m('div', { class: `${toucan}` });
+  }
+}
+
+class ClickersBrandComponent {
+  view() {
+    return m('div', { class: `${clickersContainer}` },
+      m('span', { class: `${sponsoredBy}` }, 'Sponsored by:'),
+      m('div', { class: `${clickersBrand}` }));
   }
 }
 
@@ -50,7 +61,8 @@ class LowerThirdsComponent {
 class RankingRoundComponent {
   view() {
     return m('div', { class: `${container}` },
-      m(LowerThirdsComponent));
+      m(LowerThirdsComponent),
+      m(ClickersBrandComponent));
   }
 }
 
